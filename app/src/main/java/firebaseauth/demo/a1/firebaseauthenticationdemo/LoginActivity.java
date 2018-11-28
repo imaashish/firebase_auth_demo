@@ -48,13 +48,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     private final String TAG = this.getClass().getSimpleName();
 
     // UI references.
@@ -110,9 +103,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isRegistering())
+                if (isRegistering()) {
                     attemptRegistration();
-                else swapViews(true);
+                    findViewById(R.id.textViewBackToSignIn).setVisibility(View.GONE);
+                } else swapViews(true);
             }
         });
 
@@ -255,7 +249,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual registration attempt is made.
      */
-    private void attemptRegistration() {
+    private void  attemptRegistration() {
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -316,6 +310,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                                 updateUI(null);
+                                findViewById(R.id.textViewBackToSignIn).setVisibility(View.VISIBLE);
                             }
                         }
                     });
